@@ -1,0 +1,14 @@
+C:\Users\ilage\source\repos\PerformanceLab\PerformanceLab\bin\Debug\net8.0\PerformanceLab.exe
+C:\Users\ilage\source\repos\PerformanceLab\PerformanceLab\bin\Debug\net8.0\PerformanceLab.deps.json
+C:\Users\ilage\source\repos\PerformanceLab\PerformanceLab\bin\Debug\net8.0\PerformanceLab.runtimeconfig.json
+C:\Users\ilage\source\repos\PerformanceLab\PerformanceLab\bin\Debug\net8.0\PerformanceLab.dll
+C:\Users\ilage\source\repos\PerformanceLab\PerformanceLab\bin\Debug\net8.0\PerformanceLab.pdb
+C:\Users\ilage\source\repos\PerformanceLab\PerformanceLab\obj\Debug\net8.0\PerformanceLab.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ilage\source\repos\PerformanceLab\PerformanceLab\obj\Debug\net8.0\PerformanceLab.AssemblyInfoInputs.cache
+C:\Users\ilage\source\repos\PerformanceLab\PerformanceLab\obj\Debug\net8.0\PerformanceLab.AssemblyInfo.cs
+C:\Users\ilage\source\repos\PerformanceLab\PerformanceLab\obj\Debug\net8.0\PerformanceLab.csproj.CoreCompileInputs.cache
+C:\Users\ilage\source\repos\PerformanceLab\PerformanceLab\obj\Debug\net8.0\PerformanceLab.dll
+C:\Users\ilage\source\repos\PerformanceLab\PerformanceLab\obj\Debug\net8.0\refint\PerformanceLab.dll
+C:\Users\ilage\source\repos\PerformanceLab\PerformanceLab\obj\Debug\net8.0\PerformanceLab.pdb
+C:\Users\ilage\source\repos\PerformanceLab\PerformanceLab\obj\Debug\net8.0\PerformanceLab.genruntimeconfig.cache
+C:\Users\ilage\source\repos\PerformanceLab\PerformanceLab\obj\Debug\net8.0\ref\PerformanceLab.dll
