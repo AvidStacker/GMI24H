@@ -9,7 +9,6 @@ namespace PerformanceLab
 {
     public static class OccurenceCounter
     {
-
         public static void Setup()
         {
             int count = 10;
@@ -104,6 +103,26 @@ namespace PerformanceLab
             return occurrences;
         }
 
+        public static Dictionary<int, int> GetOccurrencesSlow(List<int> values, int n)
+        {
+            return CalOccurrencesSlow(values, n);
+        }
+
+        private static Dictionary<int, int> CalOccurrencesSlow(List<int> values, int n)
+        {
+            int nextValue = 0;
+            for (int i = 1; i < n; i++)
+            {
+                nextValue = values[i];
+                for (int j = i; j > 0; j--)
+                {
+                    values[j] = values[j - 1];
+                }
+                values[0] = nextValue;
+            }
+            return values;
+        }
+
         static string SaveToCsv(TimeSpan elapsed, Dictionary<int, int> occurrences)
         {
             string projectDirectory = Directory.GetCurrentDirectory();
@@ -124,10 +143,7 @@ namespace PerformanceLab
                     writer.WriteLine($"{pair.Key};{pair.Value}");
                 }
             }
-
             return filePath;
         }
-
-
     }
 }
