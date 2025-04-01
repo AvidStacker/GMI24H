@@ -106,26 +106,22 @@ namespace PerformanceLab
 
         static string SaveToCsv(TimeSpan elapsed, Dictionary<int, int> occurrences)
         {
-            // Get the current working directory (root of the project in development)
             string projectDirectory = Directory.GetCurrentDirectory();
 
-            // Define the file path within the project directory
             string filePath = Path.Combine(projectDirectory, "Occurrences.csv");
 
             using (StreamWriter writer = new StreamWriter(filePath))
             {
-                // Writing elapsed time
-                writer.WriteLine("Kategori,Värde");
-                writer.WriteLine($"Förfluten Tid,{elapsed}");
-                writer.WriteLine($"Sekunder,{elapsed.TotalSeconds}");
-                writer.WriteLine($"Millisekunder,{elapsed.TotalMilliseconds}");
-                writer.WriteLine(); // Blank line for separation
+                writer.WriteLine("Kategori;Värde");
+                writer.WriteLine($"Förfluten Tid;{elapsed}");
+                writer.WriteLine($"Sekunder;{elapsed.TotalSeconds}");
+                writer.WriteLine($"Millisekunder;{elapsed.TotalMilliseconds}");
+                writer.WriteLine(); // Tom rad för separering
 
-                // Writing occurrences
-                writer.WriteLine("Nummer,Förekomster");
+                writer.WriteLine("Nummer;Förekomster");
                 foreach (var pair in occurrences)
                 {
-                    writer.WriteLine($"{pair.Key},{pair.Value}");
+                    writer.WriteLine($"{pair.Key};{pair.Value}");
                 }
             }
 
