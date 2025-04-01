@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,15 +21,15 @@ namespace PerformanceLab
             {
                 seed = parsedSeed;
             }
-            List<int> randomNumbers = PopulateList(range, count, seed);
+            List<int> randomNumbers = GetPopulatedList(range, count, seed);
             Console.WriteLine($"\nPopulerad lista: " + string.Join(", ", randomNumbers));
             MeasureTime(randomNumbers);
         }
 
-        public static void MeasureTime(List<int> randomNumbers)
+        private static void MeasureTime(List<int> randomNumbers)
         {
             DateTime startTime = DateTime.Now;
-            Dictionary<int, int> occurences = GetOccurrences(randomNumbers);
+            Dictionary<int, int> occurrences = GetOccurrences(randomNumbers);
             DateTime stopTime = DateTime.Now;
             TimeSpan elapsed = stopTime - startTime;
             Console.WriteLine("\nKlockad tid:");
@@ -37,13 +38,22 @@ namespace PerformanceLab
             Console.WriteLine($"Millisekunder: {elapsed.Milliseconds}");
             Console.WriteLine("\nAntal förekomster:");
 
-            foreach (var pair in occurences)
+            foreach (var pair in occurrences)
             {
                 Console.WriteLine($"Talet {pair.Key} förekommer {pair.Value} gånger.");
             }
+
+            string filePath = SaveToCsv(elapsed, occurrences);
+
+            Console.WriteLine($"Data sparad i: {filePath}");
         }
 
-        public static List<int> PopulateList(Tuple<int, int> range, int count, int? seed = null)
+        public static List<int> GetPopulatedList(Tuple<int, int> range, int count, int? seed = null)
+        {
+            return PopulateList(range, count, seed);
+        }
+
+        static List<int> PopulateList(Tuple<int, int> range, int count, int? seed = null)
         {
             if (!seed.HasValue)
             {
@@ -53,9 +63,9 @@ namespace PerformanceLab
             Console.WriteLine("\nFrö: " + seed.Value);
             Random rand = new Random(seed.Value);
 
-            List<int> randomNumbers = Enumerable.Range(range.Item1, range.Item2 - range.Item1 + 1)
+            // Generate 'count' random numbers within the given range
+            List<int> randomNumbers = Enumerable.Range(0, count)
                                                  .Select(_ => rand.Next(range.Item1, range.Item2 + 1))
-                                                 .Take(count)
                                                  .ToList();
 
             return randomNumbers;
@@ -63,6 +73,11 @@ namespace PerformanceLab
 
 
         public static Dictionary<int, int> GetOccurrences(List<int> randomNumbers)
+        {
+            return CalOccurrences(randomNumbers);
+        }
+
+        private static Dictionary<int, int> CalOccurrences(List<int> randomNumbers)
         {
             Dictionary<int, int> occurrences = new Dictionary<int, int>();
 
@@ -87,6 +102,34 @@ namespace PerformanceLab
             }
 
             return occurrences;
+        }
+
+        static string SaveToCsv(TimeSpan elapsed, Dictionary<int, int> occurrences)
+        {
+            // Get the current working directory (root of the project in development)
+            string projectDirectory = Directory.GetCurrentDirectory();
+
+            // Define the file path within the project directory
+            string filePath = Path.Combine(projectDirectory, "Occurrences.csv");
+
+            using (StreamWriter writer = new StreamWriter(filePath))
+            {
+                // Writing elapsed time
+                writer.WriteLine("Kategori,Värde");
+                writer.WriteLine($"Förfluten Tid,{elapsed}");
+                writer.WriteLine($"Sekunder,{elapsed.TotalSeconds}");
+                writer.WriteLine($"Millisekunder,{elapsed.TotalMilliseconds}");
+                writer.WriteLine(); // Blank line for separation
+
+                // Writing occurrences
+                writer.WriteLine("Nummer,Förekomster");
+                foreach (var pair in occurrences)
+                {
+                    writer.WriteLine($"{pair.Key},{pair.Value}");
+                }
+            }
+
+            return filePath;
         }
 
 
