@@ -12,7 +12,7 @@ namespace PerformanceLab
         {
             int count = 10;
             Tuple<int, int> range = new Tuple<int, int>(1, 100);
-            List<int> randomNumbers = OccurenceCounter.PopulateList(range, count);
+            List<int> randomNumbers = OccurenceCounter.GetPopulatedList(range, count);
 
             Console.WriteLine("\nOriginal ordning: " + string.Join(", ", randomNumbers));
             Console.WriteLine("Omvänd ordning: " + string.Join(", ", ReverseOrder(randomNumbers)));
