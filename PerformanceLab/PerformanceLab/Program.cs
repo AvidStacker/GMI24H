@@ -12,7 +12,7 @@ namespace PerformanceLab
             switch (inp)
             {
                 case 1:
-                    OccurenceCounter.Setup();
+                    OccurrenceCounter.Setup();
                     break;
                 case 2:
                     Reverse.Setup();

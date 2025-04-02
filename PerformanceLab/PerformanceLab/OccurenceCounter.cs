@@ -1,133 +1,103 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
+using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PerformanceLab
 {
-    public static class OccurenceCounter
+    static class OccurrenceCounter
     {
         public static void Setup()
         {
-            int count = 10;
-            Tuple<int, int> range = new Tuple<int, int>(1, 100);
-            Console.WriteLine("\nAnge frö (om spalten lämnas tom slumpas listan):");
-            string input = Console.ReadLine();
-            int? seed = null;
-            if (int.TryParse(input, out int parsedSeed))
+            Console.WriteLine("\nAnge storleken på listan:");
+            int count = int.Parse(Console.ReadLine());
+
+            Console.WriteLine("\nAnge minsta värde för nummerslumpgenereringen (t.ex. 1):");
+            int minValue = int.Parse(Console.ReadLine());
+
+            Console.WriteLine("\nAnge största värde för nummerslumpgenereringen (t.ex. 100):");
+            int maxValue = int.Parse(Console.ReadLine());
+
+            Console.WriteLine("\nAnge ett seed (eller tryck på Enter för att generera ett slumpmässigt seed):");
+            string seedInput = Console.ReadLine();
+
+            int seed;
+            Random rand;
+
+            if (int.TryParse(seedInput, out seed))
             {
-                seed = parsedSeed;
+                rand = new Random(seed);
+                Console.WriteLine($"Använt seed: {seed}");
             }
-            List<int> randomNumbers = GetPopulatedList(range, count, seed);
+            else
+            {
+                seed = new Random().Next();
+                rand = new Random(seed);
+                Console.WriteLine($"Inget seed angavs. Ett slumpmässigt seed genererades: {seed}");
+            }
+
+            int[] randomNumbers = GetPopulatedArray(count, minValue, maxValue, rand);
             Console.WriteLine($"\nPopulerad lista: " + string.Join(", ", randomNumbers));
-            MeasureTime(randomNumbers);
+
+            Console.WriteLine("\nAnge ett nummer som du vill räkna antalet förekomster av:");
+            int numberToCount = int.Parse(Console.ReadLine());
+
+            MeasureTime(randomNumbers, numberToCount);
         }
 
-        private static void MeasureTime(List<int> randomNumbers)
+        private static void MeasureTime(int[] randomNumbers, int numberToCount)
         {
             DateTime startTime = DateTime.Now;
-            Dictionary<int, int> occurrences = GetOccurrences(randomNumbers);
+            int occurrenceCount = GetOccurrences(randomNumbers, numberToCount);
             DateTime stopTime = DateTime.Now;
             TimeSpan elapsed = stopTime - startTime;
+
             Console.WriteLine("\nKlockad tid:");
             Console.WriteLine(elapsed.ToString());
-            Console.WriteLine($"Sekunder: {elapsed.Seconds}");
-            Console.WriteLine($"Millisekunder: {elapsed.Milliseconds}");
-            Console.WriteLine("\nAntal förekomster:");
+            Console.WriteLine($"Sekunder: {elapsed.TotalSeconds}");
+            Console.WriteLine($"Millisekunder: {elapsed.TotalMilliseconds}");
+            Console.WriteLine($"\nNummer {numberToCount} förekommer {occurrenceCount} gånger.");
 
-            foreach (var pair in occurrences)
-            {
-                Console.WriteLine($"Talet {pair.Key} förekommer {pair.Value} gånger.");
-            }
-
-            string filePath = SaveToCsv(elapsed, occurrences);
-
+            // Save data to CSV with the desired file name
+            string filePath = SaveToCsv("PerformanceCounterData.csv", elapsed, occurrenceCount);
             Console.WriteLine($"Data sparad i: {filePath}");
         }
 
-        public static List<int> GetPopulatedList(Tuple<int, int> range, int count, int? seed = null)
+        public static int[] GetPopulatedArray(int count, int minValue, int maxValue, Random rand)
         {
-            return PopulateList(range, count, seed);
+            return PopulateArray(count, minValue, maxValue, rand);
         }
 
-        static List<int> PopulateList(Tuple<int, int> range, int count, int? seed = null)
+        internal static int[] PopulateArray(int count, int minValue, int maxValue, Random rand)
         {
-            if (!seed.HasValue)
-            {
-                seed = new Random().Next();
-            }
-
-            Console.WriteLine("\nFrö: " + seed.Value);
-            Random rand = new Random(seed.Value);
-
-            // Generate 'count' random numbers within the given range
-            List<int> randomNumbers = Enumerable.Range(0, count)
-                                                 .Select(_ => rand.Next(range.Item1, range.Item2 + 1))
-                                                 .ToList();
-
-            return randomNumbers;
+            return Enumerable.Range(1, count)
+                             .Select(_ => rand.Next(minValue, maxValue + 1))
+                             .ToArray();
         }
 
-
-        public static Dictionary<int, int> GetOccurrences(List<int> randomNumbers)
+        public static int GetOccurrences(int[] randomNumbers, int num)
         {
-            return CalOccurrences(randomNumbers);
+            return CalOccurrences(randomNumbers, num);
         }
 
-        private static Dictionary<int, int> CalOccurrences(List<int> randomNumbers)
+        private static int CalOccurrences(int[] randomNumbers, int num)
         {
-            Dictionary<int, int> occurrences = new Dictionary<int, int>();
-
+            int count = 0;
             foreach (int number in randomNumbers)
             {
-                bool found = false;
-
-                foreach (var pair in occurrences)
+                if (number == num)
                 {
-                    if (pair.Key == number)
-                    {
-                        occurrences[pair.Key] = occurrences[pair.Key] + 1;
-                        found = true;
-                        break;
-                    }
-                }
-
-                if (!found)
-                {
-                    occurrences[number] = 1;
+                    count++;
                 }
             }
-
-            return occurrences;
+            return count;
         }
 
-        public static Dictionary<int, int> GetOccurrencesSlow(List<int> values, int n)
-        {
-            return CalOccurrencesSlow(values, n);
-        }
-
-        private static Dictionary<int, int> CalOccurrencesSlow(List<int> values, int n)
-        {
-            int nextValue = 0;
-            for (int i = 1; i < n; i++)
-            {
-                nextValue = values[i];
-                for (int j = i; j > 0; j--)
-                {
-                    values[j] = values[j - 1];
-                }
-                values[0] = nextValue;
-            }
-            return values;
-        }
-
-        static string SaveToCsv(TimeSpan elapsed, Dictionary<int, int> occurrences)
+        // Updated SaveToCsv method that accepts fileName as an argument
+        internal static string SaveToCsv(string fileName, TimeSpan elapsed, int? occurrenceCount = null)
         {
             string projectDirectory = Directory.GetCurrentDirectory();
-
-            string filePath = Path.Combine(projectDirectory, "Occurrences.csv");
+            string filePath = Path.Combine(projectDirectory, fileName);
 
             using (StreamWriter writer = new StreamWriter(filePath))
             {
@@ -135,14 +105,15 @@ namespace PerformanceLab
                 writer.WriteLine($"Förfluten Tid;{elapsed}");
                 writer.WriteLine($"Sekunder;{elapsed.TotalSeconds}");
                 writer.WriteLine($"Millisekunder;{elapsed.TotalMilliseconds}");
-                writer.WriteLine(); // Tom rad för separering
+                writer.WriteLine();
 
-                writer.WriteLine("Nummer;Förekomster");
-                foreach (var pair in occurrences)
+                if (occurrenceCount.HasValue)
                 {
-                    writer.WriteLine($"{pair.Key};{pair.Value}");
+                    writer.WriteLine("Förekomster av nummer");
+                    writer.WriteLine($"{occurrenceCount.Value}");
                 }
             }
+
             return filePath;
         }
     }
