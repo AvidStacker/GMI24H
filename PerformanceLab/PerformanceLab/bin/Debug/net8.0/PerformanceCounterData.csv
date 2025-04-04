@@ -1,0 +1,28 @@
+
+--- New Run ---
+Förfluten Tid;00:00:00.0062787
+Sekunder;0,0062787
+Millisekunder;6,2787
+Seed;1144942087
+Listlängd;1000
+
+Nummer;Förekomster
+2;9
+--- New Run ---
+Förfluten Tid;00:00:00.0142300
+Sekunder;0,01423
+Millisekunder;14,23
+Seed;1144942087
+Listlängd;1000000
+
+Nummer;Förekomster
+2;10115
+--- New Run ---
+Förfluten Tid;00:00:04.1532272
+Sekunder;4,1532272
+Millisekunder;4153,2272
+Seed;1144942087
+Listlängd;1000000000
+
+Nummer;Förekomster
+2;9999852

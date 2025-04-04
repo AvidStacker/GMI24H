@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 
 namespace PerformanceLab
 {
@@ -37,15 +38,15 @@ namespace PerformanceLab
             }
 
             int[] randomNumbers = GetPopulatedArray(count, minValue, maxValue, rand);
-            Console.WriteLine($"\nPopulerad lista: " + string.Join(", ", randomNumbers));
+            //Console.WriteLine($"\nPopulerad lista: " + string.Join(", ", randomNumbers));
 
             Console.WriteLine("\nAnge ett nummer som du vill räkna antalet förekomster av:");
             int numberToCount = int.Parse(Console.ReadLine());
 
-            MeasureTime(randomNumbers, numberToCount);
+            MeasureTime(randomNumbers, numberToCount, seed);
         }
 
-        private static void MeasureTime(int[] randomNumbers, int numberToCount)
+        private static void MeasureTime(int[] randomNumbers, int numberToCount, int seed)
         {
             DateTime startTime = DateTime.Now;
             int occurrenceCount = GetOccurrences(randomNumbers, numberToCount);
@@ -59,7 +60,7 @@ namespace PerformanceLab
             Console.WriteLine($"\nNummer {numberToCount} förekommer {occurrenceCount} gånger.");
 
             // Save data to CSV with the desired file name
-            string filePath = SaveToCsv("PerformanceCounterData.csv", elapsed, occurrenceCount);
+            string filePath = SaveToCsv("PerformanceCounterData.csv", elapsed, seed,randomNumbers.Length, numberToCount, occurrenceCount);
             Console.WriteLine($"Data sparad i: {filePath}");
         }
 
@@ -94,27 +95,39 @@ namespace PerformanceLab
         }
 
         // Updated SaveToCsv method that accepts fileName as an argument
-        internal static string SaveToCsv(string fileName, TimeSpan elapsed, int? occurrenceCount = null)
+        internal static string SaveToCsv(string fileName, TimeSpan elapsed, int seed, int listLength, int? numberToCount, int? occurrenceCount = null)
         {
             string projectDirectory = Directory.GetCurrentDirectory();
             string filePath = Path.Combine(projectDirectory, fileName);
 
-            using (StreamWriter writer = new StreamWriter(filePath))
+            bool fileExists = File.Exists(filePath);
+
+            using (StreamWriter writer = new StreamWriter(filePath, append: true, new UTF8Encoding(true)))
             {
-                writer.WriteLine("Kategori;Värde");
+                if (!fileExists)
+                {
+                    // Write header if the file does not exist
+                    writer.WriteLine("Kategori;Värde");
+                }
+
+                writer.WriteLine("--- New Run ---");
                 writer.WriteLine($"Förfluten Tid;{elapsed}");
                 writer.WriteLine($"Sekunder;{elapsed.TotalSeconds}");
                 writer.WriteLine($"Millisekunder;{elapsed.TotalMilliseconds}");
+                writer.WriteLine($"Seed;{seed}");
+                writer.WriteLine($"Listlängd;{listLength}");
                 writer.WriteLine();
 
-                if (occurrenceCount.HasValue)
+                if (occurrenceCount.HasValue && numberToCount.HasValue)
                 {
-                    writer.WriteLine("Förekomster av nummer");
-                    writer.WriteLine($"{occurrenceCount.Value}");
+                    writer.WriteLine("Nummer;Förekomster");
+                    writer.WriteLine($"{numberToCount};{occurrenceCount.Value}");
                 }
             }
 
             return filePath;
         }
+
+
     }
 }

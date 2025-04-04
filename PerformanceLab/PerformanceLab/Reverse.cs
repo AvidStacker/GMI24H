@@ -7,18 +7,15 @@ namespace PerformanceLab
     {
         public static void Setup()
         {
-            // Asking the user for the size of the list
-            Console.WriteLine("\nAnge storleken på listan:");
+            Console.WriteLine("\nAnge storleken på samlingen (arrayen):");
             int count = int.Parse(Console.ReadLine());
 
-            // Asking for the range (minValue and maxValue) for random number generation
             Console.WriteLine("\nAnge minsta värde för nummerslumpgenereringen (t.ex. 1):");
             int minValue = int.Parse(Console.ReadLine());
 
             Console.WriteLine("\nAnge största värde för nummerslumpgenereringen (t.ex. 100):");
             int maxValue = int.Parse(Console.ReadLine());
 
-            // Asking the user for the seed for reproducibility
             Console.WriteLine("\nAnge ett seed (eller tryck på Enter för att generera ett slumpmässigt seed):");
             string seedInput = Console.ReadLine();
 
@@ -33,16 +30,14 @@ namespace PerformanceLab
             }
             else
             {
-                seed = new Random().Next(); // Generate a random seed
+                seed = new Random().Next();
                 rand = new Random(seed);
                 Console.WriteLine($"Inget seed angavs. Ett slumpmässigt seed genererades: {seed}");
             }
 
-            // Generate the list using GetPopulatedArray method from OccurrenceCounter
             int[] randomNumbers = OccurrenceCounter.GetPopulatedArray(count, minValue, maxValue, rand);
-            Console.WriteLine("\nOriginal ordning: " + string.Join(", ", randomNumbers));
+            //Console.WriteLine("\nOriginal ordning: " + string.Join(", ", randomNumbers));
 
-            // Asking if the user wants to use the slow method for reversal
             Console.WriteLine("\nVill du använda den långsamma metoden för att vända listan? (Ja/Nej)");
             string useSlowMethod = Console.ReadLine()?.ToLower();
 
@@ -56,7 +51,7 @@ namespace PerformanceLab
             if (useSlowMethod == "ja")
             {
                 reversedArray = ReverseOrderSlow(randomNumbers);
-                Console.WriteLine("Omvänd ordning (långsam metod): " + string.Join(", ", reversedArray));
+                //Console.WriteLine("Omvänd ordning (långsam metod): " + string.Join(", ", reversedArray));
 
                 stopTime = DateTime.Now;
                 elapsed = stopTime - startTime;
@@ -66,13 +61,12 @@ namespace PerformanceLab
                 Console.WriteLine($"Sekunder: {elapsed.TotalSeconds}");
                 Console.WriteLine($"Millisekunder: {elapsed.TotalMilliseconds}");
 
-                // Set the file name for slow method
                 fileName = "PerformanceReverseOrderSlowData.csv";
             }
             else
             {
                 reversedArray = ReverseOrder(randomNumbers);
-                Console.WriteLine("Omvänd ordning (normal metod): " + string.Join(", ", reversedArray));
+                //Console.WriteLine("Omvänd ordning (normal metod): " + string.Join(", ", reversedArray));
 
                 stopTime = DateTime.Now;
                 elapsed = stopTime - startTime;
@@ -82,15 +76,14 @@ namespace PerformanceLab
                 Console.WriteLine($"Sekunder: {elapsed.TotalSeconds}");
                 Console.WriteLine($"Millisekunder: {elapsed.TotalMilliseconds}");
 
-                // Set the file name for normal method
                 fileName = "PerformanceReverseOrderNormalData.csv";
             }
 
-            // Call SaveToCsv from OccurrenceCounter and pass the appropriate file name
-            string filePath = OccurrenceCounter.SaveToCsv(fileName, elapsed, null);
+            string filePath = OccurrenceCounter.SaveToCsv(fileName, elapsed, seed, randomNumbers.Length, null, null);
             Console.WriteLine($"Data sparad i: {filePath}");
         }
 
+        // Faster method to reverse an array of integers
         static int[] ReverseOrder(int[] randomNumbers)
         {
             int[] reversedArray = new int[randomNumbers.Length];
@@ -101,7 +94,7 @@ namespace PerformanceLab
             return reversedArray;
         }
 
-        // Slow method to reverse the array
+        // A slow method to reverse an array of integers
         static int[] ReverseOrderSlow(int[] values)
         {
             int nextValue = 0;
