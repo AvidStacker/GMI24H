@@ -86,12 +86,19 @@ namespace PerformanceLab
         // Faster method to reverse an array of integers
         static int[] ReverseOrder(int[] randomNumbers)
         {
-            int[] reversedArray = new int[randomNumbers.Length];
-            for (int i = 0; i < randomNumbers.Length; i++)
+            int left = 0;
+            int right = randomNumbers.Length - 1;
+
+            while (left < right)
             {
-                reversedArray[i] = randomNumbers[randomNumbers.Length - 1 - i];
+                int temp = randomNumbers[left];
+                randomNumbers[left] = randomNumbers[right];
+                randomNumbers[right] = temp;
+
+                left++;
+                right--;
             }
-            return reversedArray;
+            return randomNumbers;
         }
 
         // A slow method to reverse an array of integers

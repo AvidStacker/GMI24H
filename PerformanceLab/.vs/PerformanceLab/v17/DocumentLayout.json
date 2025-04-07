@@ -7,12 +7,12 @@
       "RelativeMoniker": "D:0:0:{A36F3E03-8FCB-44DD-BB97-89ABA4FDE987}|PerformanceLab\\Lab1.csproj|solutionrelative:performancelab\\reverse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A36F3E03-8FCB-44DD-BB97-89ABA4FDE987}|PerformanceLab\\Lab1.csproj|c:\\dokument\\gmi24h\\github\\gmi24h\\performancelab\\performancelab\\occurencecounter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A36F3E03-8FCB-44DD-BB97-89ABA4FDE987}|PerformanceLab\\Lab1.csproj|solutionrelative:performancelab\\occurencecounter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{A36F3E03-8FCB-44DD-BB97-89ABA4FDE987}|PerformanceLab\\Lab1.csproj|c:\\dokument\\gmi24h\\github\\gmi24h\\performancelab\\performancelab\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A36F3E03-8FCB-44DD-BB97-89ABA4FDE987}|PerformanceLab\\Lab1.csproj|solutionrelative:performancelab\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A36F3E03-8FCB-44DD-BB97-89ABA4FDE987}|PerformanceLab\\Lab1.csproj|c:\\dokument\\gmi24h\\github\\gmi24h\\performancelab\\performancelab\\occurencecounter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A36F3E03-8FCB-44DD-BB97-89ABA4FDE987}|PerformanceLab\\Lab1.csproj|solutionrelative:performancelab\\occurencecounter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -42,7 +42,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "OccurenceCounter.cs",
               "DocumentMoniker": "C:\\Dokument\\GMI24H\\GitHub\\GMI24H\\PerformanceLab\\PerformanceLab\\OccurenceCounter.cs",
               "RelativeDocumentMoniker": "PerformanceLab\\OccurenceCounter.cs",
@@ -50,8 +50,7 @@
               "RelativeToolTip": "PerformanceLab\\OccurenceCounter.cs",
               "ViewState": "AgIAAGcAAAAAAAAAAAAAACsAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-31T13:10:43.695Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-31T13:10:43.695Z"
             },
             {
               "$type": "Document",
@@ -61,14 +60,14 @@
               "RelativeDocumentMoniker": "PerformanceLab\\Reverse.cs",
               "ToolTip": "C:\\Dokument\\GMI24H\\GitHub\\GMI24H\\PerformanceLab\\PerformanceLab\\Reverse.cs",
               "RelativeToolTip": "PerformanceLab\\Reverse.cs",
-              "ViewState": "AgIAABYAAAAAAAAAAAAQwCAAAAArAAAAAAAAAA==",
+              "ViewState": "AgIAADgAAAAAAAAAAAAiwF4AAAA7AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-03-31T13:08:01.838Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Dokument\\GMI24H\\GitHub\\GMI24H\\PerformanceLab\\PerformanceLab\\Program.cs",
               "RelativeDocumentMoniker": "PerformanceLab\\Program.cs",
